@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Neucha&display=swap');
+
+body{
+    font-family: 'Neucha', cursive !important;
+}
+.container{
+    background: #f8f9fa;
+    margin-top: 1px;
+    padding-bottom: 5px;
+}
+.navbar{
+    border-bottom: 1px black solid;
+}
