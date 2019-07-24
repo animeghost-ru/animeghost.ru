@@ -5,14 +5,20 @@ include($_SERVER['DOCUMENT_ROOT'] . '/en.php');
 include($_SERVER['DOCUMENT_ROOT'] . '/ru.php');
 include($_SERVER['DOCUMENT_ROOT'] . '/views/connect.php');
 include($_SERVER['DOCUMENT_ROOT'] . '/connector.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/db.php');
 
 class index
 {
     function init()
     {
         global $language;
-        session_start();
-        $_SESSION['selected'] = 'ru';
+        unset($user);
+        $functions = new functions;
+        $functions->sessionHandler();
+        $functions->__auth();
+        if (!$_SESSION['selected']){
+            $_SESSION['selected'] = 'ru';
+        }
         $connector = new connector;
         $connector->routes();
     }
