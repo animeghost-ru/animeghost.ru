@@ -1,45 +1,22 @@
 <?php
-include('global_vars.php');
-include('functions.php');
-include('views/head.php');
-include('views/body.php');
-include('views/nav.php');
-include('views/footer.php');
-include('views/auth.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/global_vars.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/functions.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/en.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/ru.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/views/connect.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/connector.php');
+
 class index
 {
     function init()
     {
-        if ($_SERVER['REQUEST_URI'] == '/')
-        {
-            $head = new head;
-            $head->output('Главная');
-            $body = new body;
-            $body->output();
-            $nav = new nav;
-            $nav->output('index');
-            $footer = new footer;
-            $footer->output();
-        }
-        if ($_SERVER['REQUEST_URI'] == '/auth')
-        {
-            $head = new head;
-            $head->output('Авторизация');
-            $body = new body;
-            $body->output();
-            $nav = new nav;
-            $nav->output('auth');
-
-            $auth = new auth;
-            $auth->output();
-
-            $footer = new footer;
-            $footer->output();
-        }
+        global $language;
+        session_start();
+        $_SESSION['selected'] = 'ru';
+        $connector = new connector;
+        $connector->routes();
     }
 }
-
-
 
 $index = new index;
 $index->init();

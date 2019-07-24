@@ -1,11 +1,14 @@
 <?php
-
 include($_SERVER['DOCUMENT_ROOT'] . '/global_vars.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/db_functions.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/en.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/ru.php');
+session_start();
 class login
 {
-    function login()
+    function __login()
     {
-        $pdo = new PDO('pgsql:host=pg.sweb.ru;port=5432;dbname=amarylliso', 'amarylliso', 'Mesina226');
+        $db = new db;
         global $user;
         if ($user)
         {
@@ -13,12 +16,10 @@ class login
         }
         if (empty($_POST['login']) or empty($_POST['pass']))
         {
-            $this->mes('empty', 'error');
+            $this->mes('emptyvalues', 'error');
         }
         $_POST['login'] = mb_strtolower($_POST['login']);
-        $query = $pdo->prepare('SELECT id, name, passhash FROM users WHERE name = :name');
-        $query->bindParam(':name', $_POST['login']);
-        $query->execute();
+        $query = $db->getUserIdNamePassByName($_POST['login']);
         if($query->rowCount() == 0)
         {
             $this->mes('unknownuser', 'error');
@@ -32,10 +33,10 @@ class login
     }
     function mes($key, $err = 'ok')
     {
-        global $var;
-        die(json_encode(['err' => $err, 'mes' => $var['error'][$key], 'key' => $key]));
+        global $language;
+        die(json_encode(['err' => $err, 'mes' => $language[$_SESSION['selected']][$key], 'key' => $key]));
     }
 }
 
 $login = new login;
-$login->login();
+$login->__login();
