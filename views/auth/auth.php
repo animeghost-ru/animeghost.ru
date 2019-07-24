@@ -8,7 +8,7 @@ class auth
         global $language, $user;
         if (!$user) {
             echo '
-            <section class="container">
+            <section class="container shadow-lg p-3 mb-5">
                 <form id="authform">
                   <div id="alert"></div>
                   <div class="form-group">

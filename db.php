@@ -69,4 +69,11 @@ class db
         $query->bindParam(':hash', $_SESSION["sess"]);
         $query->execute();
     }
+    function getAnimeCardsFromAnime()
+    {
+        global $pdo;
+        $query = $pdo->prepare('SELECT * FROM anime');
+        $query->execute();
+        return $query;
+    }
 }

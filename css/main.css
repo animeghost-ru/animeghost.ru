@@ -3,11 +3,33 @@
 body{
     font-family: 'Neucha', cursive !important;
 }
+a:hover{
+    cursor: pointer;
+}
 .container{
     background: #f8f9fa;
     margin-top: 1px;
     padding-bottom: 5px;
-}
+}/*
 .navbar{
     border-bottom: 1px black solid;
+}*/
+.useranimes, .usersettings{
+    display: none;
+}
+
+.card-deck img{
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 1%;
+}
+
+.genresA{
+    color: grey;
+}
+
+.genresA:hover{
+    color: darkgrey;
+    text-decoration: none;
+    border-bottom: darkgrey 1px dashed;
 }

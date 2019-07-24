@@ -40,4 +40,22 @@ $(document).ready(function() {
         });
     });
 
+    $("#youranimes").click(function () {
+        $(".nav-link").removeClass("active");
+        $("#youranimes").addClass("active");
+        $(".card-body").hide();
+        $(".useranimes").show();
+    })
+    $("#yoursettings").click(function () {
+        $(".nav-link").removeClass("active");
+        $("#yoursettings").addClass("active");
+        $(".card-body").hide();
+        $(".usersettings").show();
+    })
+    $("#yourprofile").click(function (){
+        $(".nav-link").removeClass("active");
+        $("#yourprofile").addClass("active");
+        $(".card-body").hide();
+        $(".yourprofile").show();
+    })
 });
