@@ -1,7 +1,7 @@
 <?php
 
 
-class anime
+class animeIndex
 {
     function output()
     {
@@ -22,14 +22,17 @@ class anime
                       <img src="/img/anime_posters/' . $anime['id'] . '.jpg" class="card-img-top" alt="Anime poster">
                       <div class="card-body">
                         <h5 class="card-title">' . $anime['name'] . '</h5>
-                        <div>Жанры - 
+                        <div><b>Жанры</b> - 
                         ';
                 for ($m = 0; $m < count($genres); $m++) {
                     echo '<a class="genresA" href="/anime/genres/' . $genres[$m] . '">' . $genres[$m] . '</a> ';
                 }
                 echo '
                         </div>
-                        <p class="card-text">' . substr($anime['description'], 0, 300) . '...</p>
+                        <div>
+                            <b>Рейтинг</b> - '.$anime['rating'].'
+                        </div>
+                        <p class="card-text"><b>Описание</b> - ' . substr($anime['description'], 0, 250) . '...</p>
                         <a href="/anime/' . $anime['id'] . '" class="btn btn-primary">Смотреть аниме</a>
                       </div>
                     </div>';
@@ -42,14 +45,17 @@ class anime
                       <img src="/img/anime_posters/' . $anime['id'] . '.jpg" class="card-img-top" alt="Anime poster">
                       <div class="card-body">
                         <h5 class="card-title">' . $anime['name'] . '</h5>
-                        <div>Жанры - 
+                        <div><b>Жанры</b> - 
                         ';
                 for ($m = 0; $m < count($genres); $m++) {
                     echo '<a class="genresA" href="/anime/genres/' . $genres[$m] . '">' . $genres[$m] . '</a> ';
                 }
                 echo '
                         </div>
-                        <p class="card-text">' . substr($anime['description'], 0, 300) . '...</p>
+                        <div>
+                            <b>Рейтинг</b> - '.$anime['rating'].'
+                        </div>
+                        <p class="card-text"><b>Описание</b> - ' . substr($anime['description'], 0, 250) . '...</p>
                         <a href="/anime/' . $anime['id'] . '" class="btn btn-primary">Смотреть аниме</a>
                       </div>
                     </div>';
@@ -59,5 +65,13 @@ class anime
                 </div>
             </section>
             ';
+    }
+}
+
+class animePage
+{
+    function output()
+    {
+        
     }
 }

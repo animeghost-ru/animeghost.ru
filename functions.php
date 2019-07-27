@@ -30,12 +30,14 @@ class functions
                 }
             $user = [
                 'id' => $row['id'],
+                'access' => $row['access'],
                 'name' => $row['name'],
                 'mail' => $row['mail'],
                 'last_activity' => $row['last_activity'],
                 'level' => $row['level'],
                 'online' => $row['online'],
                 'firstname' => $row['firstname'],
+                'prefered_language' => $row['prefered_language'],
                 'surname' => $row['surname'],
                 'watched' => $row['watched'],
                 'readed' => $row['readed'],
@@ -78,5 +80,14 @@ class functions
         if(random_int(1, 10) == 1){
             setcookie(session_name(), session_id(), time()+$lifetime, '/', $_SERVER['SERVER_NAME'], true, true);
         }
+    }
+
+    function getUserIdFromURI($uri)
+    {
+        return str_replace('/', '', mb_substr($uri, 9));
+    }
+    function getAnimeIdFromURI($uri)
+    {
+        return str_replace('/', '', mb_substr($uri, 7));
     }
 }

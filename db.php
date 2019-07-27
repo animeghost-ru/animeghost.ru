@@ -49,7 +49,7 @@ class db
     function getUser($id)
     {
         global $pdo;
-        $query = $pdo->prepare('SELECT id, name, mail, last_activity, age, online, level, firstname, surname, watched, readed FROM users WHERE id = :id');
+        $query = $pdo->prepare('SELECT id, name, mail, last_activity, age, online, level, firstname, surname, watched, readed, access, prefered_language FROM users WHERE id = :id');
         $query->bindParam(':id', $id);
         $query->execute();
         return $query;
@@ -72,7 +72,7 @@ class db
     function getAnimeCardsFromAnime()
     {
         global $pdo;
-        $query = $pdo->prepare('SELECT * FROM anime');
+        $query = $pdo->prepare('SELECT * FROM anime ORDER BY rating DESC');
         $query->execute();
         return $query;
     }

@@ -20,6 +20,15 @@ $language['en'] = [
     'rulang' => 'Russian',
     'enlang' => 'English',
     'lang' => 'Language Choose',
+    'role' => ['Common User', 'Editor', 'Admin', 'Creator', 'Role'],
+    'level' => 'User level',
+    'watched' => 'Watched animes',
+    'readed' => 'Readed mangas',
+    'userinfo' => 'User Info',
+    'yourprofile' => 'Your profile',
+    'youranimes' => 'Your animes',
+    'profilesettings' => 'Profile settings',
+    'sociallinks' => 'Links to social networks'
 ];
 class en
 {

@@ -16,7 +16,9 @@ class index
         $functions = new functions;
         $functions->sessionHandler();
         $functions->__auth();
-        if (!$_SESSION['selected']){
+        global $user;
+        if ($user and !$_SESSION['selected']){$_SESSION['selected'] = $user['prefered_language'];}
+        elseif (!$user and !$_SESSION['selected']) {
             $_SESSION['selected'] = 'ru';
         }
         $connector = new connector;
