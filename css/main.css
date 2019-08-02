@@ -34,3 +34,37 @@ a:hover{
     text-decoration: none;
     border-bottom: darkgrey 1px dashed;
 }
+
+.anime_poster{
+    width: 100%;
+    margin-top: 1%;
+}
+
+.card {
+    min-width: 320px;
+    width: 32%;
+    margin-left: 1%;
+    margin-bottom: 1%;
+}
+
+.card a{
+    color: black;
+    text-decoration: none;
+}
+
+.card a:hover{
+    color: black;
+    text-decoration: none;
+}
+
+.l{
+    width: 95%;
+    height: 4px;
+    margin: 0 auto 2% auto;
+    background-color: black;
+    border-radius: 10px;
+}
+
+.animecards{
+    margin: 0 auto;
+}

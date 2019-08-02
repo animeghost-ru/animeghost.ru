@@ -9,7 +9,7 @@ class profile
         {
             echo '
             <section class="container shadow-lg p-3 mb-5">
-                <div class="card text-center">
+                <div class="text-center">
                   <div class="card-header">
                     <ul class="nav nav-pills card-header-pills">
                       <li class="nav-item">
@@ -70,7 +70,7 @@ class profile
         {
             echo '
             <section class="container shadow-lg p-3 mb-5">
-                <div class="card text-center">
+                <div class="text-center">
                   <div class="card-header">
                     <ul class="nav nav-pills card-header-pills">
                       <li class="nav-item">

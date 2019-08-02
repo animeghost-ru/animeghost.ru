@@ -3,7 +3,7 @@
 
 class nav
 {
-    function output($active)
+    function output($active = NULL)
     {
         global $language, $user;
         switch ($active) {
@@ -13,14 +13,14 @@ class nav
             case 'anime':
                 $a[1]='active';
                 break;
-            case 'auth':
-                $a[3]='active';
-                break;
             case 'profile':
+            case 'auth':
                 $a[3]='active';
                 break;
             case 'manga':
                 $a[2]='active';
+                break;
+            default:
                 break;
         }
         if (!$user) {

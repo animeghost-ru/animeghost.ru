@@ -81,13 +81,39 @@ class functions
             setcookie(session_name(), session_id(), time()+$lifetime, '/', $_SERVER['SERVER_NAME'], true, true);
         }
     }
-
-    function getUserIdFromURI($uri)
+    function createGenresArrayFromString($genres)
     {
-        return str_replace('/', '', mb_substr($uri, 9));
+        return explode(',', substr($genres, 1, strlen($genres) - 2));
     }
-    function getAnimeIdFromURI($uri)
+    function createUrlArrayFromUri($uri)
     {
-        return str_replace('/', '', mb_substr($uri, 7));
+        $count = 0;
+        $result = [];
+        for($i = 0; $i<strlen($uri); $i++){
+            if (($i == 0) and ($uri[0] == '/')){
+
+            }
+            elseif (($i == strlen($uri)-1) and ($uri[strlen($uri)-1] == '/')){
+
+            }
+            elseif ($uri[$i] != '/'){
+                $result[$count] .= $uri[$i];
+            }
+            elseif ($uri[$i] == '/'){
+                $count+=1;
+            }
+        }
+        return $result;
+    }
+    function averageTimeLeft($row)
+    {
+        $count = $row->rowCount();
+        $summ = 0;
+        for($i = 0; $i<$count; $i++){
+            $row2 = $row->fetch();
+            $summ += $row2['timeleft'];
+        }
+        $average = $summ/$count;
+        return $average;
     }
 }

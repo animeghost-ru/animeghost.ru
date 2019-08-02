@@ -3,29 +3,31 @@
 
 class animeIndex
 {
-    function output()
+    function output($row)
     {
         $db = new db;
         echo '
         <section class="container shadow-lg p-3 mb-5">
-            <div class="card-deck mb-1">
+            <div class="row animecards">
         ';
-        $row = $db->getAnimeCardsFromAnime();
+
         $i = $row->rowCount();
         for ($j = 0; $j < $i; $j++) {
             $anime = $row->fetch();
-            $genres = explode(',', substr($anime['genres'], 1, strlen($anime['genres']) - 2));
-            if (($j / 3) != 1) {
+            $genres = $db->getAnimeGenresById($anime['id']);
                 echo '
-                    <div class="card" style="width: 18rem;">
+                    <div class="card">
                       <span id="aid" style="display: none">' . $anime['id'] . '</span>
                       <img src="/img/anime_posters/' . $anime['id'] . '.jpg" class="card-img-top" alt="Anime poster">
                       <div class="card-body">
-                        <h5 class="card-title">' . $anime['name'] . '</h5>
+                        <h5 class="card-title"><a href="/anime/'.$anime['id'].'">' . $anime['name'] . '</a></h5>
                         <div><b>Жанры</b> - 
                         ';
-                for ($m = 0; $m < count($genres); $m++) {
-                    echo '<a class="genresA" href="/anime/genres/' . $genres[$m] . '">' . $genres[$m] . '</a> ';
+                for ($m = 0; $m < $genres->rowCount(); $m++) {
+                    $rowGenres = $genres->fetch();
+                    $genre = $db->getAnimeGenreById($rowGenres['gid']);
+                    $genre = $genre->fetch();
+                    echo '<a class="genresA" href="/anime/genres/' . $genre['alternativename'] . '">' . $genre['name'] . '</a> ';
                 }
                 echo '
                         </div>
@@ -36,30 +38,6 @@ class animeIndex
                         <a href="/anime/' . $anime['id'] . '" class="btn btn-primary">Смотреть аниме</a>
                       </div>
                     </div>';
-            } else {
-                echo '
-                </div>
-                <div class="card-deck mb-1">
-                    <div class="card" style="width: 18rem;">
-                      <span id="aid" style="display: none">' . $anime['id'] . '</span>
-                      <img src="/img/anime_posters/' . $anime['id'] . '.jpg" class="card-img-top" alt="Anime poster">
-                      <div class="card-body">
-                        <h5 class="card-title">' . $anime['name'] . '</h5>
-                        <div><b>Жанры</b> - 
-                        ';
-                for ($m = 0; $m < count($genres); $m++) {
-                    echo '<a class="genresA" href="/anime/genres/' . $genres[$m] . '">' . $genres[$m] . '</a> ';
-                }
-                echo '
-                        </div>
-                        <div>
-                            <b>Рейтинг</b> - '.$anime['rating'].'
-                        </div>
-                        <p class="card-text"><b>Описание</b> - ' . substr($anime['description'], 0, 250) . '...</p>
-                        <a href="/anime/' . $anime['id'] . '" class="btn btn-primary">Смотреть аниме</a>
-                      </div>
-                    </div>';
-            }
         }
                 echo '
                 </div>
@@ -70,8 +48,22 @@ class animeIndex
 
 class animePage
 {
-    function output()
+    function output($anime)
     {
+        echo '
+        <section class="container shadow-lg p-3 mb-5"> 
+            <h3 class="text-center" style="margin: 0 auto;">'.$anime['name'].'</h3>
+            <div class="l"></div>
+            <div class="row">
+                <div class="col-sm-4">   
+                    <img src="/img/anime_posters/'.$anime['id'].'.jpg" class="anime_poster rounded border border-dark" alt="...">
+                </div>
+                <div class="col-sm-8">
+                    <b>Жанры: </b>
+                    <b>Описание: </b><p>'.$anime['description'].'</p>
+                </div>
+            </div>
         
+        </section>';
     }
 }

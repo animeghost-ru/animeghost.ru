@@ -69,10 +69,59 @@ class db
         $query->bindParam(':hash', $_SESSION["sess"]);
         $query->execute();
     }
-    function getAnimeCardsFromAnime()
+    function getAnimeCardsFromAnime($genres = '')
     {
         global $pdo;
-        $query = $pdo->prepare('SELECT * FROM anime ORDER BY rating DESC');
+        if ($genres == '') {
+            $query = $pdo->prepare('SELECT * FROM anime ORDER BY rating DESC');
+            $query->execute();
+            return $query;
+        }else{
+            $query = $pdo->prepare('SELECT * FROM anime WHERE genres ~ :genres ORDER BY rating DESC');
+            $query->bindParam(':genres', $genres);
+            $query->execute();
+            return $query;
+        }
+
+    }
+    function getAnimeNameFromAnime($aid)
+    {
+        global $pdo;
+        $query = $pdo->prepare('SELECT * FROM anime WHERE id = :id');
+        $query->bindParam(':id', $aid);
+        $query->execute();
+        return $query;
+    }
+    function insertTechIntoTech($page, $timeleft, $time)
+    {
+        global $pdo;
+        $query = $pdo->prepare('INSERT INTO tech (page_uri, timeleft, date) VALUES (:page, :timeleft, :date)');
+        $query->bindParam(':page', $page);
+        $query->bindParam(':timeleft', $timeleft);
+        $query->bindParam(':date', $time);
+        $query->execute();
+    }
+    function getPageTechs($uri)
+    {
+        global $pdo;
+        $query = $pdo->prepare('SELECT * FROM tech WHERE page_uri = :uri');
+        $query->bindParam(':uri', $uri);
+        $query->execute();
+        return $query;
+    }
+    function getAnimeGenresById($aid)
+    {
+        global $pdo;
+        $query = $pdo->prepare('SELECT * FROM genresanime WHERE aid = :aid');
+        $query->bindParam(':aid', $aid);
+        $query->execute();
+        return $query;
+    }
+    function getAnimeGenreById($gid)
+    {
+        global $pdo;
+        $query = $pdo->prepare('SELECT * FROM genres WHERE id = :gid');
+        $query->bindParam(':gid', $gid);
         $query->execute();
         return $query;
     }

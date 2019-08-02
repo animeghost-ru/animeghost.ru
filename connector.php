@@ -3,105 +3,111 @@
 
 class connector
 {
-    function routes()
+    function routes($oop)
     {
         global $user;
-        $functions = new functions;
-        $patternanimepage = '/^\/anime\/([0-9]+)$/';
-        $patternanimegenres = '/^\/anime\/genres\/([a-zA-Z-|]+)$/';
-        $patternuserprofile = '/^(\/profile|\/profile\/)$/';
-        $patternprofilecustom = '/^\/profile\/([0-9]+)([\/]?)$/';
-        $head = new head;
-        $body = new body;
-        $nav = new nav;
-        $footer = new footer;
-        $auth = new auth;
-        $profile = new profile;
-        $animeIndex = new animeIndex;
-        $animePage = new animePage;
-        $db = new db;
-        if ($_SERVER['REQUEST_URI'] == '/')
+        $url = $oop['functions']->createUrlArrayFromUri($_SERVER['REQUEST_URI']);
+
+        if ($url[0] == '')
         {
-            $head->output('Главная');
-            $body->output();
-            $nav->output('index');
-            $footer->output();
+            $oop['head']->output('Главная');
+            $oop['body']->output();
+            $oop['nav']->output('index');
+            $oop['footer']->output();
         }
-        if ($_SERVER['REQUEST_URI'] == '/auth')
+        elseif ($url[0] == 'auth')
         {
-            $head->output('Авторизация');
-            $body->output();
-            $nav->output('auth');
-            $auth->output();
-            $footer->output();
+            $oop['head']->output('Авторизация');
+            $oop['body']->output();
+            $oop['nav']->output('auth');
+            $oop['auth']->output();
+            $oop['footer']->output();
         }
-        if ((preg_match($patternprofilecustom, $_SERVER['REQUEST_URI']) == 1) and $user)
+        elseif (($url[0] == 'profile') and ($url[1] != null) and ($user))
         {
-            $uid = $functions->getUserIdFromURI($_SERVER['REQUEST_URI']);
-            $customuser = $db->getUser($uid);
+            $customuser = $oop['db']->getUser($url[1]);
             $mode = 2;
             if ($customuser->rowCount() == 0){$mode = 3; $title = 'Такого пользователя несуществует!';}
             $customuser = $customuser->fetch();
             if ($mode == 2){$title = 'Профиль пользователя - '.$customuser['name'];}
-            $head->output('Профиль пользователя - '.$customuser['name']);
-            $body->output();
-            $nav->output('profile');
-            $profile->output($mode, $customuser);
-            $footer->output();
+            $oop['head']->output('Профиль пользователя - '.$customuser['name']);
+            $oop['body']->output();
+            $oop['nav']->output('profile');
+            $oop['profile']->output($mode, $customuser);
+            $oop['footer']->output();
         }
-        if ((preg_match($patternprofilecustom, $_SERVER['REQUEST_URI']) == 1) and !$user)
+        elseif (($url[0] == 'profile') and ($url[1] != null) and (!$user))
         {
-            $uid = $functions->getUserIdFromURI($_SERVER['REQUEST_URI']);
-            $customuser = $db->getUser($uid);
+            $customuser = $oop['db']->getUser($url[1]);
             $mode = 2;
+            $title = '';
             if ($customuser->rowCount() == 0){$mode = 3; $title = 'Такого пользователя несуществует!';}
             $customuser = $customuser->fetch();
             if ($mode == 2){$title = 'Профиль пользователя - '.$customuser['name'];}
-            $head->output($title);
-            $body->output();
-            $nav->output('profile');
-            $profile->output($mode, $customuser);
-            $footer->output();
+            $oop['head']->output($title);
+            $oop['body']->output();
+            $oop['nav']->output('profile');
+            $oop['profile']->output($mode, $customuser);
+            $oop['footer']->output();
         }
-        if ((preg_match($patternuserprofile, $_SERVER['REQUEST_URI']) == 1) and $user)
+        elseif (($url[0] == 'profile') and ($url[1] == null) and ($user))
         {
-            $head->output('Ваш профиль');
-            $body->output();
-            $nav->output('profile');
-            $profile->output(1);
-            $footer->output();
+            $oop['head']->output('Ваш профиль');
+            $oop['body']->output();
+            $oop['nav']->output('profile');
+            $oop['profile']->output(1);
+            $oop['footer']->output();
         }
-        if ((preg_match($patternuserprofile, $_SERVER['REQUEST_URI']) == 1) and !$user)
+        elseif (($url[0] == 'profile') and ($url[1] == null) and (!$user))
         {
-            $head->output('Авторизация');
-            $body->output();
-            $nav->output('auth');
-            $auth->output();
-            $footer->output();
+            $oop['head']->output('Авторизация');
+            $oop['body']->output();
+            $oop['nav']->output('auth');
+            $oop['auth']->output();
+            $oop['footer']->output();
         }
-        if ($_SERVER['REQUEST_URI'] == '/anime')
+        elseif (($url[0] == 'anime') and !(isset($url[1])))
         {
-            $head->output('Аниме');
-            $body->output();
-            $nav->output('anime');
-            $animeIndex->output();
-            $footer->output();
+            $row = $oop['db']->getAnimeCardsFromAnime();
+            $oop['head']->output('Аниме');
+            $oop['body']->output();
+            $oop['nav']->output('anime');
+            $oop['animeIndex']->output($row);
+            $oop['footer']->output();
         }
-        if (preg_match($patternanimepage, $_SERVER['REQUEST_URI']) == 1)
-        {
-            $aid = $functions->getAnimeIdFromURI($_SERVER['REQUEST_URI']);
-            echo $aid;
+        elseif (($url[0]) == 'anime' and $url[1] == 'genres'){
+            $row = $oop['db']->getAnimeCardsFromAnime($url['2']);
+            $oop['head']->output('Аниме');
+            $oop['body']->output();
+            $oop['nav']->output('anime');
+            $oop['animeIndex']->output($row);
+            $oop['footer']->output();
         }
-        if ($_SERVER['REQUEST_URI'] == '/manga')
+        elseif (($url[0] == 'anime') and (isset($url[1])) and !(isset($url[2])))
         {
-            $head->output('Манга');
-            $body->output();
-            $nav->output('manga');
-            $footer->output();
+            $row = $oop['db']->getAnimeNameFromAnime($url[1])->fetch();
+            //if ($row->rowCount() == 0){echo 'lol';$row->fetch();}else{$row->fetch();}
+            $oop['head']->output($row['name']);
+            $oop['body']->output();
+            $oop['nav']->output('anime');
+            $oop['animePage']->output($row);
+            $oop['footer']->output();
         }
-        if (preg_match($patternanimegenres, $_SERVER['REQUEST_URI']) == 1)
+        elseif ($url[0] == 'manga')
         {
-            echo 'работает';
+            $oop['head']->output('Манга');
+            $oop['body']->output();
+            $oop['nav']->output('manga');
+            $oop['footer']->output();
+        }
+        else
+        {
+            $oop['head']->output('Упс... 404');
+            $oop['body']->output();
+            $oop['nav']->output();
+            echo '404';
+            $oop['footer']->output();
+
         }
     }
 }
